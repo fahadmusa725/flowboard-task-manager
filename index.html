@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Flowboard — Focus-driven daily task manager with priorities, filters, and glassmorphic dark design.">
+  <title>Flowboard — Plan less. Flow more.</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient background glow effects -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <main class="app-container">
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="brand">
+          <div class="brand-logo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <div class="brand-meta">
+            <h1 class="brand-name">Flowboard</h1>
+            <span class="brand-badge">PRO</span>
+          </div>
+        </div>
+        <div class="header-date-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span id="current-date-text">Today</span>
+        </div>
+      </div>
+      <p class="brand-tagline">Plan less. <span class="gradient-text">Flow more.</span></p>
+
+      <!-- Productivity Progress Bar -->
+      <div class="progress-section">
+        <div class="progress-info">
+          <span class="progress-label">Daily Focus Progress</span>
+          <span class="progress-stats" id="progress-percentage">0% Completed</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-bar-fill" style="width: 0%"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Card Shell -->
+    <section class="flow-card">
+      <!-- Task Creation Form -->
+      <form id="add-task-form" class="task-input-container">
+        <div class="input-glow-wrapper">
+          <div class="input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="16"></line>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+          </div>
+          <input 
+            type="text" 
+            id="task-input" 
+            class="task-input" 
+            placeholder="What needs to get done? (Press Enter or Ctrl+K)" 
+            autocomplete="off"
+            maxlength="140"
+            required
+          >
+          <kbd class="shortcut-pill" title="Press Ctrl+K to quick focus">⌘K</kbd>
+        </div>
+
+        <div class="input-controls-row">
+          <div class="controls-left">
+            <!-- Priority Selector -->
+            <div class="priority-select-group" id="priority-options">
+              <span class="control-label">Priority:</span>
+              <label class="priority-pill priority-pill-low" title="Low Priority">
+                <input type="radio" name="task-priority" value="low">
+                <span class="dot"></span>
+                <span>Low</span>
+              </label>
+              <label class="priority-pill priority-pill-med active" title="Medium Priority">
+                <input type="radio" name="task-priority" value="medium" checked>
+                <span class="dot"></span>
+                <span>Med</span>
+              </label>
+              <label class="priority-pill priority-pill-high" title="High Priority">
+                <input type="radio" name="task-priority" value="high">
+                <span class="dot"></span>
+                <span>High</span>
+              </label>
+            </div>
+
+            <!-- Due Date Picker -->
+            <div class="date-input-wrapper">
+              <label for="task-due-date" class="date-trigger-btn" id="date-picker-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span id="date-display-text">Due Date</span>
+              </label>
+              <input type="date" id="task-due-date" class="hidden-date-input">
+              <button type="button" class="clear-date-btn" id="clear-date-btn" title="Clear due date" style="display: none;">&times;</button>
+            </div>
+          </div>
+
+          <!-- Add Button -->
+          <button type="submit" id="add-task-btn" class="btn-primary">
+            <span>Add Task</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </form>
+
+      <!-- Search & Filters Toolbar -->
+      <div class="filters-toolbar">
+        <div class="filter-tabs" role="tablist">
+          <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">
+            All <span class="tab-badge" id="count-all">0</span>
+          </button>
+          <button class="filter-tab" data-filter="active" role="tab" aria-selected="false">
+            Active <span class="tab-badge" id="count-active">0</span>
+          </button>
+          <button class="filter-tab" data-filter="completed" role="tab" aria-selected="false">
+            Completed <span class="tab-badge" id="count-completed">0</span>
+          </button>
+        </div>
+
+        <div class="search-and-sort">
+          <!-- Search Bar -->
+          <div class="search-wrapper">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-input" placeholder="Search tasks..." class="search-input">
+            <button type="button" id="clear-search-btn" class="clear-search-btn" style="display:none;">&times;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task List Container -->
+      <div class="task-list-wrapper">
+        <ul class="task-list" id="task-list" aria-live="polite">
+          <!-- Dynamically populated tasks will appear here -->
+        </ul>
+
+        <!-- Empty State Container -->
+        <div class="empty-state" id="empty-state" style="display: none;">
+          <div class="empty-illustration" id="empty-icon-wrapper">
+            <!-- Icon injected via JS based on filter state -->
+          </div>
+          <h3 class="empty-title" id="empty-title">All tasks completed!</h3>
+          <p class="empty-desc" id="empty-desc">Take a breath, grab a coffee, or plan what comes next.</p>
+        </div>
+      </div>
+
+      <!-- Task Footer / Meta Actions -->
+      <footer class="flow-footer">
+        <div class="footer-left">
+          <span class="active-count-text" id="remaining-count-text">0 tasks left</span>
+        </div>
+        <div class="footer-right">
+          <button type="button" class="btn-text-danger" id="clear-completed-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            <span>Clear Completed</span>
+          </button>
+        </div>
+      </footer>
+    </section>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+  </main>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
