@@ -1,8 +1,8 @@
-# Flowboard — Focus-Driven Task Manager
+# Flowboard: Focus-Driven Task Manager
 
-> **Auspify Technologies Internship — Task 3 (Dynamic To-Do Application)**
+> **Auspify Technologies Internship: Task 3 (Dynamic To-Do Application)**
 
-A polished, JavaScript-powered task manager built for **Flowboard**. Goes beyond a basic add/delete list with priority levels, filtering, smooth animations, and full `localStorage` persistence — styled to match the same dark, glassmorphic design system as the rest of the portfolio.
+A polished, JavaScript-powered task manager built for **Flowboard**. Goes beyond a basic add/delete list with priority levels, filtering, smooth animations, and full `localStorage` persistence, styled to match the same dark, glassmorphic design system as the rest of the portfolio.
 
 ![Status](https://img.shields.io/badge/status-complete-brightgreen) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
@@ -12,16 +12,16 @@ A polished, JavaScript-powered task manager built for **Flowboard**. Goes beyond
 ## Features
 
 - **Add / Delete / Complete tasks** with smooth enter, exit, and completion animations
-- **Priority levels** — Low, Medium, High — with color-coded indicators
-- **Filter tabs** — All / Active / Completed — with live count badges
-- **Full `localStorage` persistence** — tasks, priorities, and completion state survive page reloads
+- **Priority levels**: Low, Medium, High, with color-coded indicators
+- **Filter tabs**: All / Active / Completed, with live count badges
+- **Full `localStorage` persistence**: tasks, priorities, and completion state survive page reloads
 - **Designed empty states** for every filter view (not a blank screen)
 - **Search** to instantly filter tasks by name
 - **Drag-and-drop reordering** (desktop)
 - **Undo toast** on delete with a short grace period before permanent removal
-- **Inline editing** — double-click any task to edit in place
+- **Inline editing**: double-click any task to edit in place
 - **Keyboard shortcut** (`Ctrl/⌘ + K`) to jump straight to the input field
-- No `alert()`/`confirm()` popups anywhere — all feedback is inline UI
+- No `alert()`/`confirm()` popups anywhere. All feedback is inline UI
 
 ## Screenshots
 

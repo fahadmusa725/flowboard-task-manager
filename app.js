@@ -1,5 +1,5 @@
 /**
- * Flowboard — Focus-Driven Task Manager
+ * Flowboard: Focus-Driven Task Manager
  * Complete Application Logic & State Management
  * Features:
  *   - Priority 1: Add/Delete/Complete with smooth CSS animations, LocalStorage, Filter tabs, Priority pills, Designed Empty States, Responsive
@@ -9,9 +9,6 @@
 (function () {
   'use strict';
 
-  // =========================================================================
-  // State & Constants
-  // =========================================================================
   const STORAGE_KEY = 'flowboard_tasks_data';
 
   // Initial Sample tasks (Loaded only if local storage is completely empty)
@@ -48,9 +45,6 @@
   let recentlyDeleted = null; // Buffer for undo functionality
   let undoTimeout = null;
 
-  // =========================================================================
-  // DOM Element Selectors
-  // =========================================================================
   const elements = {
     form: document.getElementById('add-task-form'),
     input: document.getElementById('task-input'),
@@ -76,9 +70,6 @@
     confettiCanvas: document.getElementById('confetti-canvas')
   };
 
-  // =========================================================================
-  // Initialization
-  // =========================================================================
   function init() {
     loadTasks();
     displayCurrentDate();
@@ -101,9 +92,6 @@
     elements.currentDateText.textContent = now.toLocaleDateString('en-US', options);
   }
 
-  // =========================================================================
-  // LocalStorage Persistence Layer
-  // =========================================================================
   function loadTasks() {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -127,9 +115,6 @@
     }
   }
 
-  // =========================================================================
-  // Event Listeners Setup
-  // =========================================================================
   function initEventListeners() {
     // Form submission (Add task)
     elements.form.addEventListener('submit', handleAddTask);
@@ -194,9 +179,6 @@
     });
   }
 
-  // =========================================================================
-  // Task Actions (Add, Toggle, Delete, Clear, Edit)
-  // =========================================================================
   function handleAddTask(e) {
     e.preventDefault();
     const text = elements.input.value.trim();
@@ -343,9 +325,6 @@
     }, 280);
   }
 
-  // =========================================================================
-  // Inline Editing
-  // =========================================================================
   function handleTaskListDoubleClick(e) {
     const taskTitle = e.target.closest('.task-title');
     if (!taskTitle) return;
@@ -406,9 +385,6 @@
     input.addEventListener('keydown', handleKey);
   }
 
-  // =========================================================================
-  // Drag & Drop Functionality
-  // =========================================================================
   let draggedTaskId = null;
 
   function setupDragAndDrop() {
@@ -461,11 +437,7 @@
     });
   }
 
-  // =========================================================================
-  // Render Pipeline
-  // =========================================================================
   function render(animatingTaskId = null) {
-    // 1. Filter tasks
     const filteredTasks = tasks.filter(task => {
       // Status filter
       if (currentFilter === 'active' && task.completed) return false;
@@ -475,10 +447,8 @@
       return true;
     });
 
-    // 2. Clear existing list
     elements.taskList.innerHTML = '';
 
-    // 3. Show/Hide Empty State
     if (filteredTasks.length === 0) {
       showEmptyState();
     } else {
@@ -495,7 +465,6 @@
       });
     }
 
-    // 4. Update Summary Counters & Progress
     updateSummaryCounters();
   }
 
@@ -647,9 +616,6 @@
     elements.clearCompletedBtn.style.pointerEvents = completed > 0 ? 'auto' : 'none';
   }
 
-  // =========================================================================
-  // Toast & Notification Feedback
-  // =========================================================================
   function showUndoToast(message, onUndo = null) {
     if (undoTimeout) {
       clearTimeout(undoTimeout);
@@ -684,9 +650,6 @@
     }, 4500);
   }
 
-  // =========================================================================
-  // Confetti Particle Engine (Vanilla Canvas)
-  // =========================================================================
   let confettiParticles = [];
   let confettiCtx = null;
   let confettiAnimationId = null;
@@ -773,9 +736,6 @@
     }
   }
 
-  // =========================================================================
-  // Utilities
-  // =========================================================================
   function escapeHtml(str) {
     if (!str) return '';
     const div = document.createElement('div');
@@ -783,8 +743,5 @@
     return div.innerHTML;
   }
 
-  // =========================================================================
-  // Start the Application
-  // =========================================================================
   document.addEventListener('DOMContentLoaded', init);
 })();
